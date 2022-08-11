@@ -63,7 +63,7 @@ If you have any questions, ping my human at ${AUTHOR_EMAIL}
 
 
 function sendEmail(assignment) {
-  const recipients = assignment.map(x => x.email).join(',')
+  const recipients = assignment.map(a => a.email).join(',')
   const subject = "☕ Rejoice! You have been matched for coffee"
   const body = BODY_TEMPLATE({assignment})
   const options = {noReply: true}
@@ -119,7 +119,9 @@ function getSubscribers() {
 
     if (!values) return []
   
-    return values.map(x => new Subscriber(x))
+    return values
+      .map(row => new Subscriber(row))
+      .filter(sub => sub.isValid())
     
   } catch (err) {
     return []
@@ -129,12 +131,16 @@ function getSubscribers() {
 
 class Subscriber {
   constructor(row) {
-    this.email = row[0]
-    this.name = row[1]
-    this.website = row[2]
-    this.linkedIn = row[3]
-    this.twitter = row[4]
-    this.other = row[5]
+    this.email = row[0]?.trim()
+    this.name = row[1]?.trim()
+    this.website = row[2]?.trim()
+    this.linkedIn = row[3]?.trim()
+    this.twitter = row[4]?.trim()
+    this.other = row[5]?.trim()
+  }
+
+  isValid() {
+    return this.email.length > 0
   }
 
   toString() {
