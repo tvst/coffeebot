@@ -140,7 +140,7 @@ class Subscriber {
   }
 
   isValid() {
-    return this.email.length > 0
+    return this.email == null ? false : this.email.length > 0
   }
 
   toString() {
