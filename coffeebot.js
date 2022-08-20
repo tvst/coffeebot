@@ -4,7 +4,7 @@
 const SHEET_ID = 'Fill this out! See above.'
 
 // Put your email here:
-const AUTHOR_EMAIL = 'youremail@foobarbaz.com'
+const HELP_EMAIL = 'youremail@foobarbaz.com'
 
 // ----------------------------------------------------------------------
 // Don't change anything else below.
@@ -58,7 +58,7 @@ You are receiving this because you signed up for Coffeebot.
 To unsubscribe, just remove your name from this Google sheet:
 https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit#gid=0
 
-If you have any questions, ping my human at ${AUTHOR_EMAIL}
+If you have any questions, ping my human at ${HELP_EMAIL}
 `)
 
 
