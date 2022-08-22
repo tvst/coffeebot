@@ -6,7 +6,7 @@ Hello humans! I understand you enjoy partaking in hot beverages in a social sett
 
 1. Humans sign up for Coffeebot by putting their email and other info in a Google Sheet
 2. Every Monday morning, I match the humans into pairs and email them about it
-3. Humans receive their emails and set up coffee appointments in the human calendars.
+3. Humans receive their emails and manually set up coffee appointments in their human calendars.
 
 ### How to set this up
 
