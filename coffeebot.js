@@ -114,18 +114,13 @@ function shuffleArray(array) {
 
 
 function getSubscribers() {
-  try {
-    const values = Sheets.Spreadsheets.Values.get(SHEET_ID, RANGE).values
+  const values = Sheets.Spreadsheets.Values.get(SHEET_ID, RANGE).values
 
-    if (!values) return []
-  
-    return values
-      .map(row => new Subscriber(row))
-      .filter(sub => sub.isValid())
-    
-  } catch (err) {
-    return []
-  }
+  if (!values) return []
+
+  return values
+    .map(row => new Subscriber(row))
+    .filter(sub => sub.isValid())
 }
 
 
