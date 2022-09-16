@@ -42,14 +42,19 @@ You ${assignment.length} have been matched to have coffee this week.
 ALLOW ME TO INTRODUCE YOU:
 
 ${assignment
-  .map(x => x.toString())
+  .map(a => a.toString())
   .join('\n\n')}
 
 NEXT STEPS:
-📆 Set up a 30min coffee meeting. This could be in-person or virtual. Up to you!
-🤘 Be excellent to each other and have a great time. I suggest shadow puppets. Humans enjoy that.
 
-Cheerios! Beep bop beep.
+- 📆 Set up a 30min coffee meeting. This could be in-person or virtual. Up to you!
+- 🤘 Be excellent to each other and have a great time. I suggest shadow puppets. Humans enjoy that.
+
+🥷 PRO TIP: You can "reply all" to this email to talk to your coffeemates
+
+Cheerios!
+
+Beep bop beep.
 - Coffeebot out
 
 ---
@@ -66,7 +71,7 @@ function sendEmail(assignment) {
   const recipients = assignment.map(a => a.email).join(',')
   const subject = "☕ Rejoice! You have been matched for coffee"
   const body = BODY_TEMPLATE({assignment})
-  const options = {noReply: true}
+  const options = {replyTo: recipients}
   MailApp.sendEmail(recipients, subject, body, options)
 }
 
