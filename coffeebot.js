@@ -15,22 +15,22 @@ const HELP_EMAIL = 'youremail@foobarbaz.com'
 //    Email (required), Name, Website, LinkedIn, Twitter, Other info
 // 
 // ...and ROW 1 is a header row, which we ignore.
-const RANGE = 'Main!A2:F'
+const RANGE = 'Main!A2:G'
 
 
 function run() {
   const subscribers = getSubscribers()
-  Logger.log('Subscribers: %s', subscribers)
+  console.log('Subscribers: %s', subscribers)
 
   const assignments = getAssignments(subscribers)
-  Logger.log('Assignments: %s', assignments)
+  console.log('Assignments: %s', assignments)
 
   for (let assignment of assignments) {
-    Logger.log('Sending email for %s', assignment)
+    console.log('Sending email for %s', assignment)
     sendEmail(assignment)
   }
 
-  Logger.log('Done!')
+  console.log('Done!')
 }
 
 
@@ -126,8 +126,8 @@ function getSubscribers() {
   return values
     .map(row => new Subscriber(row))
     .filter(sub => sub.isValid())
+    .filter(sub => sub.isActive())
 }
-
 
 class Subscriber {
   constructor(row) {
@@ -137,10 +137,27 @@ class Subscriber {
     this.linkedIn = row[3]?.trim()
     this.twitter = row[4]?.trim()
     this.other = row[5]?.trim()
+    this.cadence = row[6]?.trim().toLowerCase()
   }
 
   isValid() {
-    return this.email == null ? false : this.email.length > 0
+    const valid = this.email == null ? false : this.email.length > 0
+
+    if (!valid) {
+      console.log('Not valid:', this.toString())
+    }
+
+    return valid
+  }
+
+  isActive() {
+    const paused = this.cadence == 'paused'
+
+    if (paused) {
+      console.log('Paused: ', this.toString())
+    }
+
+    return !paused
   }
 
   toString() {
@@ -153,7 +170,7 @@ class Subscriber {
     if (this.other) out.push(`Other stuff: ${this.other}`)
 
     if (out.length === 0) {
-      Logger.log('ERROR: Malformed Subscriber object!', this)
+      console.log('ERROR: Malformed Subscriber object!', this)
     }
 
     return out.join('\n')
