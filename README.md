@@ -13,8 +13,8 @@ Hello humans! I understand you enjoy partaking in hot beverages in a social sett
 1. Create a new spreadsheet in Google Sheets
 2. Make the first row look like this:
 
-| Email (required) | Name | Website | LinkedIn | Twitter | Other info |
-|------------------|------|---------|----------|---------|------------|
+| Email (required) | Name | Website | LinkedIn | Twitter | Fun fact   | isActive |
+|------------------|------|---------|----------|---------|------------|----------|
 
    
 3. Create a new Apps Script in Google Drive.
@@ -23,3 +23,5 @@ Hello humans! I understand you enjoy partaking in hot beverages in a social sett
    - Change HELP_EMAIL to point to your email address (so people have someone to complain to)
 5. Create a weekly trigger to call the `run` function every week 
 6. Ask people to subscribe Coffeebot by putting their names in the Google Sheet from #1
+
+If the isActive column is 'paused', then the user will be skipped. Good for vacations, etc.
