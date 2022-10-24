@@ -167,7 +167,7 @@ class Subscriber {
     if (this.website) out.push(`Website: ${this.website}`)
     if (this.linkedIn) out.push(`LinkedIn: ${this.linkedIn}`)
     if (this.twitter) out.push(`Twitter: ${this.twitter}`)
-    if (this.other) out.push(`Other stuff: ${this.other}`)
+    if (this.other) out.push(`Fun fact: ${this.other}`)
 
     if (out.length === 0) {
       console.log('ERROR: Malformed Subscriber object!', this)
