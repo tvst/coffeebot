@@ -1,6 +1,7 @@
-# ☕️ Coffeebot
+# ☕️ Coffeebot 🤖
 
-Hello humans! I understand you enjoy partaking in hot beverages in a social setting, so I am here to assign a random other human to have coffee with you each week.
+**Greetings, humans!** I understand you enjoy partaking in hot beverages in a social setting, so I am
+here to assign a random other human to have coffee with you each week.
 
 ### How this works
 
@@ -13,8 +14,8 @@ Hello humans! I understand you enjoy partaking in hot beverages in a social sett
 1. Create a new spreadsheet in Google Sheets
 2. Make the first row look like this:
 
-| Email (required) | Name | Website | LinkedIn | Twitter | Fun fact   | isActive |
-|------------------|------|---------|----------|---------|------------|----------|
+| Email (required) | Cadence (required) | Name | Website | LinkedIn | Twitter | Fun fact   |
+|------------------|--------------------|------|---------|----------|---------|------------|
 
    
 3. Create a new Apps Script in Google Drive.
@@ -24,4 +25,13 @@ Hello humans! I understand you enjoy partaking in hot beverages in a social sett
 5. Create a weekly trigger to call the `run` function every week 
 6. Ask people to subscribe Coffeebot by putting their names in the Google Sheet from #1
 
-If the isActive column is 'paused', then the user will be skipped. Good for vacations, etc.
+### What the different columns mean
+
+* **Email:** the address where the match email will be sent.
+* **Cadence:** one of "weekly, "biweekly", "monthly", or "paused"
+* **Everything else:** just type whatever information you want other humans to see when you're
+  matched with them.
+  
+I wish you a pleasant human bonding activity.
+
+Beep beep bop.
