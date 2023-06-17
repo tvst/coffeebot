@@ -10,23 +10,24 @@ const HELP_EMAIL = 'youremail@foobarbaz.com'
 // Don't change anything else below.
 // ----------------------------------------------------------------------
 
-// Columns A-F in the spreadsheet should be the following:
+// Columns A-G in the spreadsheet should be the following:
 //
-//    Email (required), Name, Website, LinkedIn, Twitter, Other info
-// 
+//    Email (required), Cadence, Name, Website, LinkedIn, Twitter, Other info
+//
+// ...where cadence is either "weekly", "biweekly", "monthly", or "paused".
 // ...and ROW 1 is a header row, which we ignore.
 const RANGE = 'Main!A2:G'
 
 
 function run() {
   const subscribers = getSubscribers()
-  console.log('Subscribers: %s', subscribers)
+  console.log('Subscribers:\n\n%s', subscribers.join('\n\n'))
 
   const assignments = getAssignments(subscribers)
-  console.log('Assignments: %s', assignments)
+  console.log('Assignments:\n\n%s', assignments.join('\n\n'))
 
   for (let assignment of assignments) {
-    console.log('Sending email for %s', assignment)
+    console.log('Sending email to assignment:\n\n%s', assignment.join('\n\n'))
     sendEmail(assignment)
   }
 
@@ -42,7 +43,7 @@ You ${assignment.length} have been matched to have coffee this week.
 ALLOW ME TO INTRODUCE YOU:
 
 ${assignment
-  .map(a => a.toString())
+  .map(a => a.toString({shorter: true}))
   .join('\n\n')}
 
 NEXT STEPS:
@@ -123,21 +124,32 @@ function getSubscribers() {
 
   if (!values) return []
 
+  const weekNumber = getWeekNumber()
+
   return values
     .map(row => new Subscriber(row))
     .filter(sub => sub.isValid())
-    .filter(sub => sub.isActive())
+    .filter(sub => sub.isParticipatingThisWeek(weekNumber))
+}
+
+// Modified from https://stackoverflow.com/a/6117889
+function getWeekNumber() {
+  var d = new Date()
+  var dayNum = d.getUTCDay() || 7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+  var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
 }
 
 class Subscriber {
   constructor(row) {
     this.email = row[0]?.trim()
-    this.name = row[1]?.trim()
-    this.website = row[2]?.trim()
-    this.linkedIn = row[3]?.trim()
-    this.twitter = row[4]?.trim()
-    this.other = row[5]?.trim()
-    this.cadence = row[6]?.trim().toLowerCase()
+    this.cadence = row[1]?.trim().toLowerCase()
+    this.name = row[2]?.trim()
+    this.website = row[3]?.trim()
+    this.linkedIn = row[4]?.trim()
+    this.twitter = row[5]?.trim()
+    this.other = row[6]?.trim()
   }
 
   isValid() {
@@ -150,17 +162,27 @@ class Subscriber {
     return valid
   }
 
-  isActive() {
-    const paused = this.cadence == 'paused'
+  isParticipatingThisWeek(weekNumber) {
+    switch (this.cadence) {
+      case 'paused':
+        return false
 
-    if (paused) {
-      console.log('Paused: ', this.toString())
+      case 'weekly':
+        return true
+
+      case 'biweekly':
+      case 'bi-weekly':
+        return weekNumber % 2 == 0
+
+      case 'monthly':
+        return weekNumber % 4 == 0
+
+      default:
+        return true
     }
-
-    return !paused
   }
 
-  toString() {
+  toString({ shorter } = {}) {
     let out = []
     if (this.name) out.push(`Name: ${this.name}`)
     if (this.email) out.push(`Email: ${this.email}`)
@@ -168,6 +190,10 @@ class Subscriber {
     if (this.linkedIn) out.push(`LinkedIn: ${this.linkedIn}`)
     if (this.twitter) out.push(`Twitter: ${this.twitter}`)
     if (this.other) out.push(`Fun fact: ${this.other}`)
+
+    if (!shorter) {
+      if (this.cadence) out.push(`Cadence: ${this.cadence}`)
+    }
 
     if (out.length === 0) {
       console.log('ERROR: Malformed Subscriber object!', this)
