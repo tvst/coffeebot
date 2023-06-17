@@ -1,6 +1,10 @@
-# ☕️ Coffeebot 🤖
+# ☕️ Coffeebot
 
-**Greetings, humans!** I understand you enjoy partaking in hot beverages in a social setting, so I am
+A serverless robot that matches people to have coffee. Runs on Google Apps Script (free with GSuite).
+
+---
+
+🤖 **Greetings, humans!** I understand you enjoy partaking in hot beverages in a social setting, so I am
 here to assign a random other human to have coffee with you each week.
 
 ### How this works
